@@ -27,12 +27,13 @@ def clean_string(string: str) -> str:
     """
     return string.replace("\n", "").replace("  ", " ")
 
-def datetime_to_str(datetime_obj: datetime) -> str:
+def datetime_to_arxiv_str(datetime_obj: datetime) -> str:
     """
     Converts a datetime object to a string in the format expected by the ArXiv API
     :param datetime_obj: Datetime object to convert
     :return: Datetime in the Arxiv API format
     """
+    return datetime_obj.strftime("%Y%m%d%H%M")
 
 def get_papers(search_query: str, max_results: int = 20, start: int = 0, last_month: bool = True) -> list[Paper]:
     """
@@ -51,8 +52,8 @@ def get_papers(search_query: str, max_results: int = 20, start: int = 0, last_mo
     if last_month:
         to_time = datetime.now(timezone.utc)
         from_time = to_time - timedelta(days=30)
-        from_string = from_time.strftime("%Y%m%d%H%M")
-        to_string = to_time.strftime("%Y%m%d%H%M")
+        from_string = datetime_to_arxiv_str(from_time)
+        to_string = datetime_to_arxiv_str(to_time)
         time_filter = f"submittedDate:[{from_string}+TO+{to_string}]"
         full_query = f"{search_query}+AND+{time_filter}"
         encoded_query = quote(full_query, safe=':+[]')
