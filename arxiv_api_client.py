@@ -62,7 +62,6 @@ def get_papers(search_query: str, max_results: int = 20, start: int = 0, last_mo
         params["search_query"] = quote(search_query, safe=':+[]')
 
     url = f"{API_URL}?search_query={params['search_query']}&start={params['start']}&max_results={params['max_results']}"
-    print(url)
     response = requests.get(url)
     return parse_atom_response(response.text)
 
