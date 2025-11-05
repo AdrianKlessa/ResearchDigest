@@ -1,7 +1,8 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import xml.etree.ElementTree as ET
 import requests
+from urllib.parse import quote
 
 
 API_URL = 'http://export.arxiv.org/api/query'
@@ -26,21 +27,42 @@ def clean_string(string: str) -> str:
     """
     return string.replace("\n", "").replace("  ", " ")
 
-def get_papers(search_query: str, max_results: int = 20, start: int = 0) -> list[Paper]:
+def datetime_to_str(datetime_obj: datetime) -> str:
+    """
+    Converts a datetime object to a string in the format expected by the ArXiv API
+    :param datetime_obj: Datetime object to convert
+    :return: Datetime in the Arxiv API format
+    """
+
+def get_papers(search_query: str, max_results: int = 20, start: int = 0, last_month: bool = True) -> list[Paper]:
     """
     Retrieve papers from arXiv API
     :param search_query: Text to search for
     :param max_results: Maximum number of papers to return
     :param start: Index of first paper to return (for batching results)
+    :param last_month: If true, return only papers published during the last month
     :return: List of Paper objects
     """
+
     params = {
-        'search_query': search_query,
         'max_results': max_results,
         'start': start,
     }
+    if last_month:
+        to_time = datetime.now(timezone.utc)
+        from_time = to_time - timedelta(days=30)
+        from_string = from_time.strftime("%Y%m%d%H%M")
+        to_string = to_time.strftime("%Y%m%d%H%M")
+        time_filter = f"submittedDate:[{from_string}+TO+{to_string}]"
+        full_query = f"{search_query}+AND+{time_filter}"
+        encoded_query = quote(full_query, safe=':+[]')
+        params["search_query"] = encoded_query
+    else:
+        params["search_query"] = quote(search_query, safe=':+[]')
 
-    response = requests.get(API_URL, params=params)
+    url = f"{API_URL}?search_query={params['search_query']}&start={params['start']}&max_results={params['max_results']}"
+    print(url)
+    response = requests.get(url)
     return parse_atom_response(response.text)
 
 def parse_atom_response(response: str)-> list[Paper]:
