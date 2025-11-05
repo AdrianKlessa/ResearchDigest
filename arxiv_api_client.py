@@ -26,13 +26,13 @@ def clean_string(string: str) -> str:
     """
     return string.replace("\n", "").replace("  ", " ")
 
-def get_papers(search_query: str, max_results: int = 20, start: int = 0) -> str:
+def get_papers(search_query: str, max_results: int = 20, start: int = 0) -> list[Paper]:
     """
     Retrieve papers from arXiv API
     :param search_query: Text to search for
     :param max_results: Maximum number of papers to return
     :param start: Index of first paper to return (for batching results)
-    :return: Pure-text response from arXiv API
+    :return: List of Paper objects
     """
     params = {
         'search_query': search_query,
@@ -41,7 +41,7 @@ def get_papers(search_query: str, max_results: int = 20, start: int = 0) -> str:
     }
 
     response = requests.get(API_URL, params=params)
-    return response.text
+    return parse_atom_response(response.text)
 
 def parse_atom_response(response: str)-> list[Paper]:
     """
