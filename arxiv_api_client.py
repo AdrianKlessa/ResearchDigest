@@ -19,9 +19,21 @@ class Paper:
     paper_pdf_link: str
 
 def clean_string(string: str) -> str:
+    """
+    Remove newlines and double spaces from the string
+    :param string: String to clean
+    :return: Cleaned string
+    """
     return string.replace("\n", "").replace("  ", " ")
 
 def get_papers(search_query: str, max_results: int = 20, start: int = 0) -> str:
+    """
+    Retrieve papers from arXiv API
+    :param search_query: Text to search for
+    :param max_results: Maximum number of papers to return
+    :param start: Index of first paper to return (for batching results)
+    :return: Pure-text response from arXiv API
+    """
     params = {
         'search_query': search_query,
         'max_results': max_results,
@@ -32,6 +44,11 @@ def get_papers(search_query: str, max_results: int = 20, start: int = 0) -> str:
     return response.text
 
 def parse_atom_response(response: str)-> list[Paper]:
+    """
+    Parse XML response from arXiv API
+    :param response: String response from arXiv API in the Atom XML format
+    :return: List of Paper objects
+    """
     root = ET.fromstring(response)
     papers = []
     for child in root:
