@@ -86,7 +86,7 @@ def parse_atom_response(response: str)-> list[Paper]:
 
             for element in child:
                 if element.tag == f"{NAMESPACE}author":
-                    authors.append(element.text)
+                    authors.append(element.find(f"{NAMESPACE}name").text)
                 if element.tag == f"{NAMESPACE}id":
                     paper_id = element.text
                 if element.tag == f"{NAMESPACE}updated":
@@ -117,3 +117,17 @@ def parse_atom_response(response: str)-> list[Paper]:
             papers.append(paper)
 
     return papers
+
+if __name__ == '__main__':
+    #papers = get_papers("forecasting", last_month=True)
+
+    with open("example_response.txt", "r") as f:
+        raw_response = f.read()
+        papers = parse_atom_response(raw_response)
+
+    for paper in papers:
+        print(paper.authors)
+        print(f"Published: {paper.published}")
+
+    print("---")
+    print(str(papers[0]))
