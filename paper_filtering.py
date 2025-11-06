@@ -7,6 +7,10 @@ from pydantic import BaseModel, Field
 from model import get_llm
 from parse_config import get_interests
 import time
+from langchain_core.prompts import PromptTemplate
+
+rating_prompt_template = PromptTemplate.from_template("Rate the novelty, clarity and impact of the following papers. Provide a comment on why the paper might be interesting. \n\n\n {papers}")
+
 
 class PaperRating(BaseModel):
     """Rating of an ArXiv paper."""
@@ -36,10 +40,9 @@ def get_paper_ratings():
 
     # Gemini-2.5-flash has a 1M context window so splitting up the documents is likely not needed - they're just abstracts
 
-    query = "Rate the novelty, clarity and impact of the following papers. Provide a comment on why the paper might be interesting."
-    query = query + "\n\n\n" + papers
+    prompt = rating_prompt_template.format(papers=papers)
     result = structured_llm_json.invoke(
-        query
+        prompt
     )
     return result
 
