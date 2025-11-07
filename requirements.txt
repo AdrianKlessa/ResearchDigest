@@ -1,5 +1,8 @@
-langchain==1.0.3
-langchain-google-genai==3.0.1
-pydantic==2.10.4
-pdfplumber==0.11.7
-pytesseract==0.3.10
+langchain~=1.0.3
+langchain-google-genai~=3.0.1
+pydantic~=2.10.4
+pdfplumber~=0.11.7
+pytesseract~=0.3.10
+langchain-core~=1.0.3
+requests~=2.32.3
+pillow~=10.2.0
