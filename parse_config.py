@@ -17,3 +17,11 @@ def get_interests()->List[str]:
     interests = interests.split(',')
     interests = [interest.strip() for interest in interests]
     return interests
+
+def get_tesseract_path()->str:
+    config = get_config()
+    return config['tesseract']['tesseract_path']
+
+def get_use_tesseract()->bool:
+    config = get_config()
+    return config.getboolean('tesseract', 'use_tesseract')
