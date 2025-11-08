@@ -117,17 +117,3 @@ def parse_atom_response(response: str)-> list[Paper]:
             papers.append(paper)
 
     return papers
-
-if __name__ == '__main__':
-    #papers = get_papers("forecasting", last_month=True)
-
-    with open("example_response.txt", "r") as f:
-        raw_response = f.read()
-        papers = parse_atom_response(raw_response)
-
-    for paper in papers:
-        print(paper.authors)
-        print(f"Published: {paper.published}")
-
-    print("---")
-    print(str(papers[0]))
