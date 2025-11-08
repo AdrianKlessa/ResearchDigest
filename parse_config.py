@@ -25,3 +25,11 @@ def get_tesseract_path()->str:
 def get_use_tesseract()->bool:
     config = get_config()
     return config.getboolean('tesseract', 'use_tesseract')
+
+def get_papers_path()->str:
+    config = get_config()
+    return config['filepaths']['papers_path']
+
+def get_reports_path()->str:
+    config = get_config()
+    return config['filepaths']['reports_path']
