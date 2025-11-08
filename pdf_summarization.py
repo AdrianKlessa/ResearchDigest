@@ -21,6 +21,11 @@ papers_path = get_papers_path()
 reports_path = get_reports_path()
 
 def summarize_article(article_text: str)->str:
+    """
+    Use an LLM to generate a summary of the article.
+    :param article_text: Text of the article (extracted from a PDF).
+    :return: Summary of the article.
+    """
     llm = get_llm()
     prompt = summarize_prompt.format(article=article_text)
     result = llm.invoke(prompt)
@@ -28,6 +33,11 @@ def summarize_article(article_text: str)->str:
     return result_text
 
 def explain_summary(article_summary: str)->str:
+    """
+    Use an LLM to generate a simplified explanation of the article.
+    :param article_summary: Summary of the article.
+    :return: A simplified explanation of the article.
+    """
     llm = get_llm()
     prompt = plain_english_prompt.format(article_summary=article_summary)
     result = llm.invoke(prompt)
@@ -35,6 +45,11 @@ def explain_summary(article_summary: str)->str:
     return result_text
 
 def explain_summary_pros_cons(article_summary: str)->str:
+    """
+    Use an LLM to generate comments about the potential applications, as well as drawbacks of what was presented in the article.
+    :param article_summary: Summary of the article.
+    :return: Commentary about the potential applications, as well as drawbacks of what was presented in the article.
+    """
     llm = get_llm()
     prompt = pros_cons_prompt.format(article_summary=article_summary)
     result = llm.invoke(prompt)
@@ -42,6 +57,14 @@ def explain_summary_pros_cons(article_summary: str)->str:
     return result_text
 
 def assemble_report(article_id: str, article_summary: str, article_explanation: str, pros_cons: str)->str:
+    """
+    Generate a markdown report of the article.
+    :param article_id: arXiv id of the article
+    :param article_summary: Summary of the article
+    :param article_explanation: Simplified explanation of the article
+    :param pros_cons: Commentary about the article
+    :return: Markdown report of the article.
+    """
     markdown_report = ""
     markdown_report += f"# **Report for article {article_id}**"
     markdown_report += "\n\n# Technical summary \n\n"
@@ -53,6 +76,11 @@ def assemble_report(article_id: str, article_summary: str, article_explanation: 
     return markdown_report
 
 def save_report(report_markdown: str, filename: str)->None:
+    """
+    Save a markdown report of the article.
+    :param report_markdown: Markdown report of the article.
+    :param filename: Filename of the output file (not full path).
+    """
     file_path_pdf = os.path.join(reports_path, filename)
     file_path_markdown = Path(file_path_pdf).with_suffix(".md")
     with open(file_path_markdown, "w", encoding="utf-8", errors="ignore") as f:
@@ -60,6 +88,10 @@ def save_report(report_markdown: str, filename: str)->None:
 
 
 def generate_paper_summary(article_filename: str)->None:
+    """
+    Generate a markdown report of the given article.
+    :param article_filename: Filename of the article (not full path).
+    """
     article_path = os.path.join(papers_path, article_filename)
 
     extracted_text = get_pdf_text(article_path)
