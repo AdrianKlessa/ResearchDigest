@@ -74,6 +74,3 @@ def get_most_interesting_papers(n: int)->Sequence[PaperRating]:
     ratings = get_paper_ratings()
     sorted = sort_papers(ratings)
     return sorted[:n]
-
-if __name__ == "__main__":
-    print(get_most_interesting_papers(5))
