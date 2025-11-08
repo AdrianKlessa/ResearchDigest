@@ -15,4 +15,5 @@ def get_interesting_papers(no_papers: int)->None:
     Print information about most interesting papers from the domains configured in the ini file.
     :param no_papers: Number of most interesting papers to print information about.
     """
-    print(get_most_interesting_papers(no_papers))
+    for x in get_most_interesting_papers(no_papers):
+        print(x)
