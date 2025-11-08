@@ -6,6 +6,7 @@
   * Summary
   * Simplified explanation of what it does
   * Potential applications, impact and disadvantages of the presented method
+* Also includes a Langchain arXiv search tool for agentic usage (example usage in `arxiv_tool_agentic_usage.ipynb`)
 
 ---
 #### Usage
