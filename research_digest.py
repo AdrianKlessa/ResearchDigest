@@ -17,3 +17,9 @@ def get_interesting_papers(no_papers: int)->None:
     """
     for x in get_most_interesting_papers(no_papers):
         print(x)
+
+
+if __name__ == '__main__':
+    # Example usage
+    get_interesting_papers(10)
+    generate_article_report("2510.14837v1.pdf")
