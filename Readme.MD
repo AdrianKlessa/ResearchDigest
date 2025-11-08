@@ -1,8 +1,24 @@
 ### ResearchDigest
 
-* Retrieve information about new articles from ArXiv 
-* Automatically rate article novelty and impact
-* Get AI-generated summaries for your convenience
+* Retrieve information about new articles from arXiv 
+* Automatically sort by article novelty and impact
+* Generate markdown reports about a given paper containing its:
+  * Summary
+  * Simplified explanation of what it does
+  * Potential applications, impact and disadvantages of the presented method
+
+---
+#### Usage
+The main user-facing functions, as well as usage examples can be found in the `research_digest.py` file.
+
+Before running it, make sure to configure the necessary entries in `config.ini` - in particular, 
+set up the API key for Google AI Studio, change the retrieved topics to ones you're interested in and disable Tesseract
+if you don't have it installed.
+
+For paper summarization, put the PDF in the `papers` directory and provide its filename as an argument 
+to the function generating the reports.
+
+---
 
 PDF summarization can either use built-in pdfplumber text extraction or OCR.
 
