@@ -20,6 +20,13 @@ For paper summarization, put the PDF in the `papers` directory and provide its f
 to the function generating the reports.
 
 ---
+#### Article filtering & summarization workflows
+
+The workflows used for both of these usages can be seen below.
+
+![Workflows](workflows.png)
+
+---
 
 PDF summarization can either use built-in pdfplumber text extraction or OCR.
 
